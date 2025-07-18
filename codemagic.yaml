@@ -1,4 +1,4 @@
-workflows:
+workflowsworkflows:
   build-telegram:
     name: Build Telegram Android
     max_build_duration: 60
@@ -6,8 +6,8 @@ workflows:
       vars:
         RELEASE_STORE_FILE: TMessagesProj/config/release.keystore
         RELEASE_KEY_ALIAS: telegram
-        RELEASE_STORE_PASSWORD: telegram123
-        RELEASE_KEY_PASSWORD: telegram123
+        RELEASE_STORE_PASSWORD: 123456
+        RELEASE_KEY_PASSWORD: 123456
     scripts:
       - name: تحديث مكتبات C/C++
         script: |
@@ -18,13 +18,16 @@ workflows:
       - name: إنشاء keystore وهمي
         script: |
           mkdir -p TMessagesProj/config
-          keytool -genkey -v \
+          keytool -genkeypair \
+            -storetype JKS \
             -keystore $RELEASE_STORE_FILE \
             -storepass $RELEASE_STORE_PASSWORD \
             -alias $RELEASE_KEY_ALIAS \
             -keypass $RELEASE_KEY_PASSWORD \
             -dname "CN=Telegram,O=Org,C=US" \
-            -keyalg RSA -keysize 2048 -validity 10000
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000
       - name: بناء التطبيق
         script: |
           ./gradlew :TMessagesProj:assemblePlayRelease \
