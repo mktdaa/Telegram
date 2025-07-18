@@ -32,9 +32,9 @@ workflows:
             -keysize 2048 \
             -validity 10000
 
-      - name: بناء التطبيق
+      - name: بناء التطبيق (نسخة Release)
         script: |
-          ./gradlew :TMessagesProj:assemblePlayRelease \
+          ./gradlew :TMessagesProj:assembleRelease \
             -Pandroid.injected.signing.store.file=$RELEASE_STORE_FILE \
             -Pandroid.injected.signing.store.password=$RELEASE_STORE_PASSWORD \
             -Pandroid.injected.signing.key.alias=$RELEASE_KEY_ALIAS \
