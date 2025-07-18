@@ -1,4 +1,4 @@
-workflowsworkflows:
+workflows:
   build-telegram:
     name: Build Telegram Android
     max_build_duration: 60
