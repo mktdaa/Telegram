@@ -12,12 +12,15 @@ workflows:
       - name: تحديث مكتبات C/C++
         script: |
           git submodule update --init --recursive
+
       - name: إنشاء ملف google-services.json
         script: |
           echo '{}' > TMessagesProj/google-services.json
-      - name: إنشاء keystore وهمي
+
+      - name: إنشاء keystore وهمي بعد حذف القديم إن وجد
         script: |
           mkdir -p TMessagesProj/config
+          rm -f $RELEASE_STORE_FILE
           keytool -genkeypair \
             -storetype JKS \
             -keystore $RELEASE_STORE_FILE \
@@ -28,6 +31,7 @@ workflows:
             -keyalg RSA \
             -keysize 2048 \
             -validity 10000
+
       - name: بناء التطبيق
         script: |
           ./gradlew :TMessagesProj:assemblePlayRelease \
@@ -35,5 +39,6 @@ workflows:
             -Pandroid.injected.signing.store.password=$RELEASE_STORE_PASSWORD \
             -Pandroid.injected.signing.key.alias=$RELEASE_KEY_ALIAS \
             -Pandroid.injected.signing.key.password=$RELEASE_KEY_PASSWORD
+
     artifacts:
       - TMessagesProj/build/outputs/**/*.apk
