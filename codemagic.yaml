@@ -6,8 +6,8 @@ workflows:
       vars:
         RELEASE_STORE_FILE: TMessagesProj/config/release.keystore
         RELEASE_KEY_ALIAS: telegram
-        RELEASE_STORE_PASSWORD: 123456
-        RELEASE_KEY_PASSWORD: 123456
+        RELEASE_STORE_PASSWORD: 12345678
+        RELEASE_KEY_PASSWORD: 12345678
     scripts:
       - name: تحديث مكتبات C/C++
         script: |
@@ -17,7 +17,7 @@ workflows:
         script: |
           echo '{}' > TMessagesProj/google-services.json
 
-      - name: إنشاء keystore وهمي بعد حذف القديم إن وجد
+      - name: إنشاء keystore جديد بعد حذف القديم
         script: |
           mkdir -p TMessagesProj/config
           rm -f $RELEASE_STORE_FILE
@@ -32,7 +32,7 @@ workflows:
             -keysize 2048 \
             -validity 10000
 
-      - name: بناء التطبيق (نسخة Release)
+      - name: بناء النسخة Release
         script: |
           ./gradlew :TMessagesProj:assembleRelease \
             -Pandroid.injected.signing.store.file=$RELEASE_STORE_FILE \
